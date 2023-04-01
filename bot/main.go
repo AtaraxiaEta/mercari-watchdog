@@ -26,9 +26,9 @@ func Boot() {
 	bot := Pichubot.NewBot()
 	bot.Config = Pichubot.Config{
 		Loglvl:   Pichubot.LOGGER_LEVEL_WARNING,
-		Host:     "127.0.0.1:28285",
-		MasterQQ: 295589844,
-		Path:     "/",
+		Host:     "127.0.0.1:8080",
+		MasterQQ: 578853225,
+		Path:     "/onebot/v11/ws",
 		MsgAwait: true,
 	}
 	go msgPushService()
