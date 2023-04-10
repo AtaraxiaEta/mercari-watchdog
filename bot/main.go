@@ -26,7 +26,7 @@ func Boot() {
 	bot := Pichubot.NewBot()
 	bot.Config = Pichubot.Config{
 		Loglvl:   Pichubot.LOGGER_LEVEL_WARNING,
-		Host:     "127.0.0.1:8080",
+		Host:     "0.0.0.0:6700",
 		MasterQQ: 578853225,
 		Path:     "/",
 		MsgAwait: true,

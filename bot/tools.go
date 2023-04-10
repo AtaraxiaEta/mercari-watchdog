@@ -5,20 +5,20 @@ import (
 	"math/rand"
 	"strconv"
 	"strings"
-	"time"
+	//"time"
 
 	"bookq.xyz/mercari-watchdog/models/analysisdata"
 	"bookq.xyz/mercari-watchdog/models/analysistask"
-	"bookq.xyz/mercari-watchdog/models/fetchdata"
+	//"bookq.xyz/mercari-watchdog/models/fetchdata"
 	"bookq.xyz/mercari-watchdog/tools"
-	"github.com/google/uuid"
+	//"github.com/google/uuid"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // links about fronted
-const (
-	merbot_tadd_link = "https://merbot.bookq.xyz/task/add/"
-)
+// const (
+// 	merbot_tadd_link = "https://merbot.bookq.xyz/task/add/"
+// )
 
 // service about creating task.
 func createTask(params []string, qq int64, group int64) (string, error) {
@@ -56,30 +56,30 @@ func createTask(params []string, qq int64, group int64) (string, error) {
 
 	// token generator (used in web to differ users)
 	// only excute when cases above passed
-	var authkey string
-	tmp := strings.Split(uuid.New().String(), "-")[:2]
-	authkey = fmt.Sprintf("%s%s", tmp[0], tmp[1])
-	for fetchdata.IfExist(authkey) {
-		tmp := strings.Split(uuid.New().String(), "-")[:2]
-		authkey = fmt.Sprintf("%s%s", tmp[0], tmp[1])
-	}
+	// var authkey string
+	// tmp := strings.Split(uuid.New().String(), "-")[:2]
+	// authkey = fmt.Sprintf("%s%s", tmp[0], tmp[1])
+	// for fetchdata.IfExist(authkey) {
+	// 	tmp := strings.Split(uuid.New().String(), "-")[:2]
+	// 	authkey = fmt.Sprintf("%s%s", tmp[0], tmp[1])
+	// }
 
-	fetchData := fetchdata.TaskAddFetchData{
-		Override: fetchdata.FetchOverride{
-			Owner: qq,
-			Group: group,
-		},
-		Auth:   authkey,
-		Expire: time.Now().Unix() + int64(600),
-	}
+	// fetchData := fetchdata.TaskAddFetchData{
+	// 	Override: fetchdata.FetchOverride{
+	// 		Owner: qq,
+	// 		Group: group,
+	// 	},
+	// 	Auth:   authkey,
+	// 	Expire: time.Now().Unix() + int64(600),
+	// }
 
-	err := fetchdata.Insert(fetchData)
-	if err != nil {
-		return "", err
-	}
+	// err := fetchdata.Insert(fetchData)
+	// if err != nil {
+	// 	return "", err
+	// }
 
-	// concat return value
-	result = fmt.Sprintf("在这个页面里也可以添加任务:\n%s%s\n%s", merbot_tadd_link, authkey, result)
+	// // concat return value
+	//result = fmt.Sprintf("在这个页面里也可以添加任务:\n%s%s\n%s", merbot_tadd_link, authkey, result)
 	return result, nil
 }
 
