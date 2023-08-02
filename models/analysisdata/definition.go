@@ -43,7 +43,7 @@ func (d *AnalysisData) PrivlegedFormatSimplifiedChinese() []string {
 			}
 
 			tmp := fmt.Sprintf("[CQ:image,file=file://%s/%s]名称:%s\n价格:%vyen\n更新时间:%s\n链接:%s",
-				wd, filepath, item.ProductName, item.Price,
+				wd+"/picture", filepath, item.ProductName, item.Price,
 				time.Unix(updated, 0).In(location).Format("2006-01-02 15:04:05"), "https://jp.mercari.com/item/"+item.ProductId)
 			res = append(res, tmp)
 		}
@@ -68,7 +68,7 @@ func (d *AnalysisData) FormatSimplifiedChinese() string {
 			fmt.Println(filepath, PathExists(wd+"/"+filepath))
 
 			builder.WriteString(fmt.Sprintf("\n[CQ:image,file=file://%s/%s]\n名称:%s\n价格:%vyen\n链接:%s",
-				wd+"/picture", filepath, item.ProductName, item.Price, item.ProductId))
+				wd+"/picture", filepath, item.ProductName, item.Price, "https://jp.mercari.com/item/"+item.ProductId))
 		}
 	}
 	return builder.String()
