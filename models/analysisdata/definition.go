@@ -33,7 +33,7 @@ func (d *AnalysisData) PrivlegedFormatSimplifiedChinese() []string {
 	res := make([]string, 1, 6)
 	res[0] = fmt.Sprintf("任务ID:%v\n关键词:%s\n时间:%s\n蹲到符合要求的结果数为%v",
 		d.TaskID, tools.ConcatKeyword(d.Keywords), time.Unix(d.Time, 0).In(location).Format("2006-01-02 15:04:05"), d.Length)
-	wd = wd + "/picture"
+
 	if d.Length > 0 {
 		for _, item := range d.Data {
 			updated, _ := strconv.ParseInt(item.Updated, 10, 64)
@@ -42,8 +42,8 @@ func (d *AnalysisData) PrivlegedFormatSimplifiedChinese() []string {
 				log.Printf("发送信息时出现错误: %v", err)
 			}
 
-			tmp := fmt.Sprintf("[CQ:image,file=file://%s/%s]名称:%s\n价格:%vyen\n更新时间:%s\n链接:%s",
-				wd, filepath, item.ProductName, item.Price,
+			tmp := fmt.Sprintf("[CQ:image,file=file://%s]名称:%s\n价格:%vyen\n更新时间:%s\n链接:%s",
+				filepath, item.ProductName, item.Price,
 				time.Unix(updated, 0).In(location).Format("2006-01-02 15:04:05"), "https://jp.mercari.com/item/"+item.ProductId)
 			res = append(res, tmp)
 		}
@@ -67,8 +67,8 @@ func (d *AnalysisData) FormatSimplifiedChinese() string {
 
 			fmt.Println(filepath, PathExists(wd+"/"+filepath))
 
-			builder.WriteString(fmt.Sprintf("\n[CQ:image,file=file://%s/%s]\n名称:%s\n价格:%vyen\n链接:%s",
-				wd, filepath, item.ProductName, item.Price, "https://jp.mercari.com/item/"+item.ProductId))
+			builder.WriteString(fmt.Sprintf("\n[CQ:image,file=file://%s]\n名称:%s\n价格:%vyen\n链接:%s",
+				filepath, item.ProductName, item.Price, "https://jp.mercari.com/item/"+item.ProductId))
 		}
 	}
 	return builder.String()
@@ -95,7 +95,7 @@ func saveWebpImage(url string, wd string) (string, error) {
 		questionMarkPos = len(url)
 	}
 
-	filename := fmt.Sprintf("%s/%s", wd, url[filenameStart+1:questionMarkPos])
+	filename := fmt.Sprintf("%s/%s/%s", wd, "picture", url[filenameStart+1:questionMarkPos])
 
 	if PathExists(filename) {
 		return filename, nil
