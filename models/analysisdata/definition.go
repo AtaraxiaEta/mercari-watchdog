@@ -42,7 +42,7 @@ func (d *AnalysisData) PrivlegedFormatSimplifiedChinese() []string {
 				log.Printf("发送信息时出现错误: %v", err)
 			}
 
-			tmp := fmt.Sprintf("[CQ:image,file=file://%s]名称:%s\n价格:%vyen\n更新时间:%s\n链接:%s",
+			tmp := fmt.Sprintf("[CQ:image,file=file:%s]名称:%s\n价格:%vyen\n更新时间:%s\n链接:%s",
 				filepath, item.ProductName, item.Price,
 				time.Unix(updated, 0).In(location).Format("2006-01-02 15:04:05"), "https://jp.mercari.com/item/"+item.ProductId)
 			res = append(res, tmp)
@@ -67,7 +67,7 @@ func (d *AnalysisData) FormatSimplifiedChinese() string {
 
 			fmt.Println(filepath, PathExists(wd+"/"+filepath))
 
-			builder.WriteString(fmt.Sprintf("\n[CQ:image,file=file://%s]\n名称:%s\n价格:%vyen\n链接:%s",
+			builder.WriteString(fmt.Sprintf("\n[CQ:image,file=file:%s]\n名称:%s\n价格:%vyen\n链接:%s",
 				filepath, item.ProductName, item.Price, "https://jp.mercari.com/item/"+item.ProductId))
 		}
 	}
