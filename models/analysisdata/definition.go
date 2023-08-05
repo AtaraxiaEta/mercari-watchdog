@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -16,7 +15,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-var wd, _ = os.Getwd()
+// var wd, _ = os.Getwd()
 
 type AnalysisData struct {
 	ID       primitive.ObjectID        `bson:"_id"`
@@ -37,13 +36,13 @@ func (d *AnalysisData) PrivlegedFormatSimplifiedChinese() []string {
 	if d.Length > 0 {
 		for _, item := range d.Data {
 			updated, _ := strconv.ParseInt(item.Updated, 10, 64)
-			filepath, err := saveWebpImage(item.ImageURL[0], wd)
-			if err != nil {
-				log.Printf("发送信息时出现错误: %v", err)
-			}
+			// filepath, err := saveWebpImage(item.ImageURL[0], wd)
+			// if err != nil {
+			// 	log.Printf("发送信息时出现错误: %v", err)
+			// }
 
-			tmp := fmt.Sprintf("[CQ:image,file=file:%s]名称:%s\n价格:%vyen\n更新时间:%s\n链接:%s",
-				filepath, item.ProductName, item.Price,
+			tmp := fmt.Sprintf("[CQ:image,file=%s]名称:%s\n价格:%vyen\n更新时间:%s\n链接:%s",
+				item.ImageURL[0], item.ProductName, item.Price,
 				time.Unix(updated, 0).In(location).Format("2006-01-02 15:04:05"), "https://jp.mercari.com/item/"+item.ProductId)
 			res = append(res, tmp)
 		}
@@ -60,15 +59,15 @@ func (d *AnalysisData) FormatSimplifiedChinese() string {
 
 	if d.Length > 0 {
 		for _, item := range d.Data {
-			filepath, err := saveWebpImage(item.ImageURL[0], wd)
-			if err != nil {
-				log.Printf("发送信息时出现错误: %v", err)
-			}
+			// filepath, err := saveWebpImage(item.ImageURL[0], wd)
+			// if err != nil {
+			// 	log.Printf("发送信息时出现错误: %v", err)
+			// }
 
-			fmt.Println(filepath, PathExists(wd+"/"+filepath))
+			//fmt.Println(filepath, PathExists(wd+"/"+filepath))
 
-			builder.WriteString(fmt.Sprintf("\n[CQ:image,file=file:%s]\n名称:%s\n价格:%vyen\n链接:%s",
-				filepath, item.ProductName, item.Price, "https://jp.mercari.com/item/"+item.ProductId))
+			builder.WriteString(fmt.Sprintf("\n[CQ:image,file=%s]\n名称:%s\n价格:%vyen\n链接:%s",
+				item.ImageURL[0], item.ProductName, item.Price, "https://jp.mercari.com/item/"+item.ProductId))
 		}
 	}
 	return builder.String()
